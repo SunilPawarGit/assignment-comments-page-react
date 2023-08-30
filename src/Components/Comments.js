@@ -72,7 +72,6 @@ const CommentsPage = ({
   const editHandlerData = () => {
     const newValue = editmsg?.trim()?.split(",");
     newValue.splice(0, 1);
-    console.log(newValue);
     editHandler(newValue?.join(","), details, id, isReply, index);
   };
   return (

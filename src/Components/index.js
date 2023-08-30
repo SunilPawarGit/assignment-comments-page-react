@@ -23,7 +23,6 @@ const MainPage = () => {
   const dispatch = useDispatch();
   //  GET Req current User
   const fetchCurrentUser = async () => {
-    console.log(window);
     const res = await HttpGet("/currentUser");
     dispatch({
       type: SET_USER,
@@ -37,7 +36,6 @@ const MainPage = () => {
       type: SET_COMMENTS,
       payload: res,
     });
-    console.log(res, Comments);
   };
 
   useEffect(() => {
@@ -87,16 +85,16 @@ const MainPage = () => {
         type === "minus"
           ? parentData.replies[index].score - 1
           : parentData.replies[index].score + 1;
-      const res = await HttpPut(`/comments/${parentData.id}`, parentData);
-      console.log(res);
+       await HttpPut(`/comments/${parentData.id}`, parentData);
+      
     } else {
       const parentData = Comments?.filter(
         (comments) => comments.id === id
       )?.[0];
       parentData.score =
         type === "minus" ? parentData.score - 1 : parentData.score + 1;
-      const res = await HttpPut(`/comments/${parentData.id}`, parentData);
-      console.log(res);
+       await HttpPut(`/comments/${parentData.id}`, parentData);
+     
     }
     fetchComments();
   };
@@ -110,7 +108,7 @@ const MainPage = () => {
       score: 0,
       replies: [],
     };
-    const res = await HttpPost("/comments", body);
+    await HttpPost("/comments", body);
     setMsg("");
     fetchComments();
   };
@@ -129,7 +127,7 @@ const MainPage = () => {
       (comments) => comments.id === ReplyingTo?.idData
     )?.[0];
     parentData.replies = [...parentData?.replies, newObject];
-    const res = await HttpPut(`/comments/${parentData.id}`, parentData);
+    await HttpPut(`/comments/${parentData.id}`, parentData);
     // if(ReplyingTo?.isReplyData){
     // }else{
 
@@ -162,15 +160,15 @@ const MainPage = () => {
         (comments) => comments.id === id
       )?.[0];
       parentData.replies?.splice(index, 1);
-      const res = await HttpPut(`/comments/${parentData.id}`, parentData);
-      console.log(res);
+       await HttpPut(`/comments/${parentData.id}`, parentData);
+     
     } else {
       // const parentData = Comments?.filter(
       //   (comments) => comments.id === id
       // )?.[0];
       // parentData.replies = parentData.replies?.filter();
-      const res = await HttpDelete(`/comments/${id}`);
-      console.log(res);
+      await HttpDelete(`/comments/${id}`);
+  
     }
     fetchComments();
     dispatch({ type: SET_IS_DELETE, payload: false });
@@ -250,15 +248,14 @@ const MainPage = () => {
         (comments) => comments.id === id
       )?.[0];
       parentData.replies[index].content = value;
-      const res = await HttpPut(`/comments/${parentData.id}`, parentData);
-      console.log(res);
+     await HttpPut(`/comments/${parentData.id}`, parentData);
     } else {
       const parentData = Comments?.filter(
         (comments) => comments.id === id
       )?.[0];
       parentData.content = value;
-      const res = await HttpPut(`/comments/${parentData.id}`, parentData);
-      console.log(res);
+      await HttpPut(`/comments/${parentData.id}`, parentData);
+      
     }
     fetchComments();
   };
